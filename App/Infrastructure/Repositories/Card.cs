@@ -1,27 +1,20 @@
 using App.Domain.Entities;
+using App.Infrastructure.Presistence;
 
 namespace App.Infrastructure.Repositories;
 
 
 public class CardRepository {
 
-    // private readonly AppDbContext _db;
+     private readonly AppDbContext _db;
 
-    // public AuthRepository(AppDbContext db)
-    // {
-    //     _db = db;
-    // }
-
-
-    public async Task AddProduct(IdentityEntity identity) {
-
+    public CardRepository(AppDbContext db)
+    {
+        _db = db;
     }
 
-    public async Task DeleteProduct(IdentityEntity identity) {
-        
-    }
-
-    public async Task DeleteCard(CardEntity card) {
-        
+    public async Task<CardEntity?> GetByIdAsync(int id)
+    {
+        return await _db.Cards.FindAsync(id);
     }
 }

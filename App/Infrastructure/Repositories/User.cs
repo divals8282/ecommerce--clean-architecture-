@@ -1,24 +1,19 @@
 using App.Domain.Entities;
-using App.Domain.Enums;
+using App.Infrastructure.Presistence;
 
 namespace App.Infrastructure.Repositories;
 
-
 public class UserRepository {
 
-    // private readonly AppDbContext _db;
+     private readonly AppDbContext _db;
 
-    // public AuthRepository(AppDbContext db)
-    // {
-    //     _db = db;
-    // }
-
-
-    public async Task SetNewRole(UserEntity user, RoleEnum role) {
-
+    public UserRepository(AppDbContext db)
+    {
+        _db = db;
     }
 
-    public async Task RegisterUser(UserEntity user) {
-        
+    public async Task<UserEntity?> GetByIdAsync(int id)
+    {
+        return await _db.Users.FindAsync(id);
     }
 }

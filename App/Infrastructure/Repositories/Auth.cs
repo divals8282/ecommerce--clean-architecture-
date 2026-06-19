@@ -1,31 +1,20 @@
 using App.Domain.Entities;
+using App.Infrastructure.Presistence;
 
 namespace App.Infrastructure.Repositories;
 
 
 public class AuthRepository {
 
-    // private readonly AppDbContext _db;
+     private readonly AppDbContext _db;
 
-    // public AuthRepository(AppDbContext db)
-    // {
-    //     _db = db;
-    // }
-
-
-    public async Task CheckPasswordValidity(string password) {
-
+    public AuthRepository(AppDbContext db)
+    {
+        _db = db;
     }
 
-    public async Task GenerateTokens(UserEntity user) {
-
-    }
-
-    public async Task CheckRefreshTokenValidity(string refreshToken) {
-
-    }
-
-    public async Task KillActualRefreshToken(UserEntity user) {
-
+    public async Task<UserEntity?> GetByIdAsync(int id)
+    {
+        return await _db.Users.FindAsync(id);
     }
 }
