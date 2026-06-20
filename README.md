@@ -1,1 +1,1 @@
-Clean Architecture Demo
+Clean Architecture
