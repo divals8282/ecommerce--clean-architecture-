@@ -17,6 +17,12 @@ public class AuthController : ControllerBase {
         return Results.Json(new {  }, statusCode: 200);
     }
 
+    [HttpPost("/auth/sign-up/content-manager/{SUPER-SECRET}")]
+    public async Task<IResult> SignUpContentManager() {
+
+        return Results.Json(new {}, statusCode: 200);
+    }
+
     [HttpGet("/auth/get-user")]
     public async Task<IResult> GetUser(ProductEntity product)
     {
