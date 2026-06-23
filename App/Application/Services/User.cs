@@ -10,10 +10,12 @@ namespace App.Application.Services;
 public class UserService {
     private readonly UserRepository _userRepo;
     private readonly AuthService _authService;
+    private readonly IConfiguration _config;
 
-    public UserService(UserRepository userRepo, AuthService authService) {
+    public UserService(UserRepository userRepo, AuthService authService, IConfiguration config) {
         _userRepo = userRepo;
         _authService = authService;
+        _config = config;
     }
 
     public async Task<bool> SetNewRole(UserEntity user, RoleEnum role) {
@@ -46,15 +48,21 @@ public class UserService {
         var isPasswordValid = await _authService.ComparePasswordAsync(u, user.Password);
 
         if(!isPasswordValid) {
-            return new { status = false, authTokens = new {} };
+            return new {};
         }
 
         var accessToken = await _authService.CreateTokenAsync(u, ETokenType.ACCESS);
         var refreshToken = await _authService.CreateTokenAsync(u, ETokenType.REFRESH);
 
-        return new { status = true, authTokens = new {
+        return new {
             accessToken,
             refreshToken
-        } };
+        };
+    }
+
+    public bool CheckSuperSecretValidity(string superSecret) {
+        var realSuperSecret = _config["SUPER_SECRET"];
+
+        return superSecret == realSuperSecret;
     }
 }

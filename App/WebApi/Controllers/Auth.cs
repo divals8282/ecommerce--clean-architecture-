@@ -1,9 +1,8 @@
 using App.Application.DTOS.Auth;
 using App.Application.Services;
 using App.Domain.Entities;
-using App.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
-
+using App.Domain.Enums;
 namespace App.WebApi.Controllers;
 
 [ApiController]
@@ -24,36 +23,48 @@ public class AuthController : ControllerBase {
             LastName = request.LastName,
             Name = request.Name,
             Password = request.Password,
-            Role = request.Role,
+            Role = RoleEnum.CLIENT,
             Checkouts = new List<CheckoutEntity>(),
             RefreshToken = ""
         };
 
-        var result = await _userService.RegisterUser(newUser);
+        var registrationStatus = await _userService.RegisterUser(newUser);
 
-
-        if(result) {
-            return Results.Json(new { status = true, user = newUser }, statusCode: 200);
-        }
-
-        return Results.Json(new { status = false }, statusCode: 200);
+        return Results.Json(new { status = registrationStatus }, statusCode: 200);
     }
 
     [HttpPost("/auth/sign-in")]
     public async Task<IResult> SignIn([FromBody] SignInRequestDTO request)
     {
-        
-        return Results.Json(new {  }, statusCode: 200);
+        var result = await _userService.Login(request);
+
+        return Results.Json(result, statusCode: 200);
     }
 
-    [HttpPost("/auth/sign-up/content-manager/{SUPER-SECRET}")]
-    public async Task<IResult> SignUpContentManager() {
+    [HttpPost("/auth/sign-up/content-manager/{superSecret}")]
+    public async Task<IResult> SignUpContentManager([FromBody] SignUpRequestDTO request, [FromRoute] string superSecret) {
+        var isSuperSecretValid = _userService.CheckSuperSecretValidity(superSecret);
+        
+        if(!isSuperSecretValid) {
+            return Results.Json(new { message = "SUPER_SECRET not valid"}, statusCode: 200);
+        }
+        
+        var registrationStatus = await _userService.RegisterUser(new UserEntity() {
+            UserName = request.UserName,
+            LastName = request.LastName,
+            Name = request.Name,
+            Password = request.Password,
+            Role = RoleEnum.CLIENT,
+            Checkouts = new List<CheckoutEntity>(),
+            RefreshToken = ""
+        });
 
-        return Results.Json(new {}, statusCode: 200);
+
+        return Results.Json(new { status = registrationStatus }, statusCode: 200);
     }
 
     [HttpGet("/auth/get-user")]
-    public async Task<IResult> GetUser(ProductEntity product)
+    public async Task<IResult> GetUser()
     {
         return Results.Json(new {  }, statusCode: 200);
     }

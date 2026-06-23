@@ -21,6 +21,4 @@ public class SignUpRequestDTO {
     [MinLength(3)]
     [MaxLength(24)]
     public string Password {get; set;} = null!;
-
-    public RoleEnum Role {get; set;} = RoleEnum.CLIENT;
 }
