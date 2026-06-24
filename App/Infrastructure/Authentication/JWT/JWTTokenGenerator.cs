@@ -7,6 +7,8 @@ using App.Infrastructure.Authentication.JWT;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
+namespace App.Infrastructure.Authentication.JWT;
+
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
     private readonly JwtOptions _options;

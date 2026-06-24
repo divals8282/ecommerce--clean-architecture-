@@ -3,6 +3,7 @@ using App.Application.Services;
 using App.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using App.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 namespace App.WebApi.Controllers;
 
 [ApiController]
@@ -63,9 +64,11 @@ public class AuthController : ControllerBase {
         return Results.Json(new { status = registrationStatus }, statusCode: 200);
     }
 
+    [Authorize]
     [HttpGet("/auth/get-user")]
     public async Task<IResult> GetUser()
     {
+
         return Results.Json(new {  }, statusCode: 200);
     }
 }

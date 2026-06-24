@@ -4,6 +4,8 @@ using App.Domain.Enums;
 using App.Infrastructure.Repositories;
 using App.Infrastructure.Services;
 using App.Application.Authentication.JWT;
+using System.Security.Claims;
+using App.Infrastructure.Authentication.JWT;
 
 namespace App.Application.Services;
 
@@ -12,10 +14,13 @@ public class UserService {
     private readonly AuthService _authService;
     private readonly IConfiguration _config;
 
-    public UserService(UserRepository userRepo, AuthService authService, IConfiguration config) {
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public UserService(UserRepository userRepo, AuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor) {
         _userRepo = userRepo;
         _authService = authService;
         _config = config;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<bool> SetNewRole(UserEntity user, RoleEnum role) {
@@ -64,5 +69,30 @@ public class UserService {
         var realSuperSecret = _config["SUPER_SECRET"];
 
         return superSecret == realSuperSecret;
+    }
+
+    public RJwtPayload GetCurrentUser() {
+        var NameIdentifier = int.Parse(
+            _httpContextAccessor.HttpContext!
+                .User
+                .FindFirst(ClaimTypes.NameIdentifier)!
+                .Value);
+
+        var Name = _httpContextAccessor.HttpContext!
+                .User
+                .FindFirst(ClaimTypes.Name)!
+                .Value;
+
+        var Role = _httpContextAccessor.HttpContext!
+                .User
+                .FindFirst(ClaimTypes.Role)!
+                .Value;
+
+        var AuthenticationMethod = _httpContextAccessor.HttpContext!
+                .User
+                .FindFirst(ClaimTypes.AuthenticationMethod)!
+                .Value;
+
+        return new RJwtPayload(NameIdentifier, Name, AuthenticationMethod, Role == "ACCESS" ? ETokenType.ACCESS : ETokenType.REFRESH);
     }
 }

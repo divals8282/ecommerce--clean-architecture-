@@ -1,8 +1,11 @@
+using System.Text;
 using App.Application.Services;
 using App.Infrastructure.Presistence;
 using App.Infrastructure.Repositories;
 using App.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +16,26 @@ builder.Services.AddDbContext<AppDbContext>((options) => {
     options.UseSqlServer();
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters =
+        new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey =
+                new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(
+                        builder.Configuration["Jwt:SecretKey"]!)),
+
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true
+        };
+});
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddControllers();
+
 
 builder.Services.AddScoped<AuthRepository>();
 builder.Services.AddScoped<CardRepository>();
