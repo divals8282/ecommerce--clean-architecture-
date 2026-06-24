@@ -16,6 +16,31 @@ public class UserService {
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
+    private RJwtPayload CurrentUserJWTPayload() {
+        var NameIdentifier = int.Parse(
+            _httpContextAccessor.HttpContext!
+                .User
+                .FindFirst(ClaimTypes.NameIdentifier)!
+                .Value);
+
+        var Name = _httpContextAccessor.HttpContext!
+                .User
+                .FindFirst(ClaimTypes.Name)!
+                .Value;
+
+        var Role = _httpContextAccessor.HttpContext!
+                .User
+                .FindFirst(ClaimTypes.Role)!
+                .Value;
+
+        var AuthenticationMethod = _httpContextAccessor.HttpContext!
+                .User
+                .FindFirst(ClaimTypes.AuthenticationMethod)!
+                .Value;
+
+        return new RJwtPayload(NameIdentifier, Name, AuthenticationMethod, Role == "ACCESS" ? ETokenType.ACCESS : ETokenType.REFRESH);
+    }
+
     public UserService(UserRepository userRepo, AuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor) {
         _userRepo = userRepo;
         _authService = authService;
@@ -69,30 +94,5 @@ public class UserService {
         var realSuperSecret = _config["SUPER_SECRET"];
 
         return superSecret == realSuperSecret;
-    }
-
-    public RJwtPayload GetCurrentUser() {
-        var NameIdentifier = int.Parse(
-            _httpContextAccessor.HttpContext!
-                .User
-                .FindFirst(ClaimTypes.NameIdentifier)!
-                .Value);
-
-        var Name = _httpContextAccessor.HttpContext!
-                .User
-                .FindFirst(ClaimTypes.Name)!
-                .Value;
-
-        var Role = _httpContextAccessor.HttpContext!
-                .User
-                .FindFirst(ClaimTypes.Role)!
-                .Value;
-
-        var AuthenticationMethod = _httpContextAccessor.HttpContext!
-                .User
-                .FindFirst(ClaimTypes.AuthenticationMethod)!
-                .Value;
-
-        return new RJwtPayload(NameIdentifier, Name, AuthenticationMethod, Role == "ACCESS" ? ETokenType.ACCESS : ETokenType.REFRESH);
     }
 }
