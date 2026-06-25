@@ -9,5 +9,5 @@ public class CheckoutEntity
 
     public List<ProductEntity> Products = null!;
 
-    public DateTime CreatedAt;
+    public DateTime CreatedAt { get; set; }
 }

@@ -10,7 +10,7 @@ public interface IUserService
 
     public Task<bool> RegisterUser(UserEntity user);
 
-    public Task<object> Login(SignInRequestDTO user);
+    public Task<SignInResponseDTO> Login(SignInRequestDTO user);
 
     public bool CheckSuperSecretValidity(string superSecret);
 

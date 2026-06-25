@@ -41,7 +41,7 @@ public class AuthController : ControllerBase
     public async Task<IResult> SignIn([FromBody] SignInRequestDTO request)
     {
         var result = await _userService.Login(request);
-
+        
         return Results.Json(result, statusCode: 200);
     }
 

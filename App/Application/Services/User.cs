@@ -5,11 +5,14 @@ using System.Security.Claims;
 using App.Infrastructure.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
 using App.Application.Enums.JWT;
+using Microsoft.AspNetCore.Identity;
 
 namespace App.Application.Services;
 
 public class UserService : IUserService
 {
+
+    private PasswordHasher<object> hasher = new PasswordHasher<object>();
     private readonly IUserRepository _userRepo;
     private readonly IAuthService _authService;
     private readonly IConfiguration _config;
@@ -67,35 +70,51 @@ public class UserService : IUserService
 
     public async Task<bool> RegisterUser(UserEntity user)
     {
+        var hashedPassword = hasher.HashPassword(new(), user.Password);
+
+        user.Password = hashedPassword;
+
         await _userRepo.AddAsync(user);
         await _userRepo.SaveChangesAsync();
 
         return true;
     }
 
-    public async Task<object> Login(SignInRequestDTO user)
+    public async Task<SignInResponseDTO> Login(SignInRequestDTO user)
     {
-        var u = await _userRepo.GetByFieldName("username", user.UserName);
+        var u = await _userRepo.GetByFieldName("UserName", user.UserName);
 
         if (u == null)
         {
-            return new { status = false, authTokens = new { } };
+            return new SignInResponseDTO()
+            {
+                status = false,
+                message = "Username or Password invalid"
+            };
         }
 
         var isPasswordValid = await _authService.ComparePasswordAsync(u, user.Password);
 
         if (!isPasswordValid)
         {
-            return new { };
+            return new SignInResponseDTO()
+            {
+                status = false,
+                message = "Username or Password invalid"
+            };
         }
 
         var accessToken = await _authService.CreateTokenAsync(u, ETokenType.ACCESS);
         var refreshToken = await _authService.CreateTokenAsync(u, ETokenType.REFRESH);
-
-        return new
+       
+        return new SignInResponseDTO()
         {
-            accessToken,
-            refreshToken
+            status = true,
+            message = "Success",
+            data = {
+                    accessToken = accessToken,
+                    refreshToken = refreshToken
+                }
         };
     }
 
