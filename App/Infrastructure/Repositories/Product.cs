@@ -1,11 +1,12 @@
 using App.Domain.Entities;
+using App.Domain.Interfaces.Repositories;
 using App.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.Repositories;
 
 
-public class ProductRepository
+public class ProductRepository : IProductRepository
 {
 
     private readonly AppDbContext _db;

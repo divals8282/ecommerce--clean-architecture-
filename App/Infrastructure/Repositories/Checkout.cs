@@ -1,10 +1,11 @@
 using App.Domain.Entities;
+using App.Domain.Interfaces.Repositories;
 using App.Infrastructure.Presistence;
 
 namespace App.Infrastructure.Repositories;
 
 
-public class CheckoutRepository
+public class CheckoutRepository : ICheckoutRepository
 {
 
     private readonly AppDbContext _db;

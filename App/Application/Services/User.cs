@@ -6,16 +6,25 @@ using App.Infrastructure.Services;
 using App.Application.Authentication.JWT;
 using System.Security.Claims;
 using App.Infrastructure.Authentication.JWT;
+using App.Domain.Interfaces.Repositories;
 
 namespace App.Application.Services;
 
 public class UserService
 {
-    private readonly UserRepository _userRepo;
+    private readonly IUserRepository _userRepo;
     private readonly AuthService _authService;
     private readonly IConfiguration _config;
 
     private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public UserService(IUserRepository userRepo, AuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor)
+    {
+        _userRepo = userRepo;
+        _authService = authService;
+        _config = config;
+        _httpContextAccessor = httpContextAccessor;
+    }
 
     private RJwtPayload SerializeJWTPayloadAuthUser()
     {
@@ -41,14 +50,6 @@ public class UserService
                 .Value;
 
         return new RJwtPayload(NameIdentifier, Name, AuthenticationMethod, Role == "ACCESS" ? ETokenType.ACCESS : ETokenType.REFRESH);
-    }
-
-    public UserService(UserRepository userRepo, AuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor)
-    {
-        _userRepo = userRepo;
-        _authService = authService;
-        _config = config;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<bool> SetNewRole(UserEntity user, RoleEnum role)

@@ -1,19 +1,19 @@
 using App.Domain.Entities;
-using App.Infrastructure.Repositories;
+using App.Domain.Interfaces.Repositories;
 
 namespace App.Application.Services;
 
 public class CardService
 {
 
-    private ProductRepository _productRepo;
+    private readonly IProductRepository _productRepo;
 
-    private CardRepository _cardRepo;
+    private readonly ICardRepository _cardRepo;
 
-    public CardService(CardRepository cardRepo, IdentityRepository identityRepo, ProductRepository productRepo)
+    public CardService(IProductRepository productRepo, ICardRepository cardRepo)
     {
-        _cardRepo = cardRepo;
         _productRepo = productRepo;
+        _cardRepo = cardRepo;
     }
 
     public async Task<CardEntity?> GetCard(int identityId)

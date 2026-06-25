@@ -1,11 +1,12 @@
 using App.Domain.Entities;
+using App.Domain.Interfaces.Repositories;
 using App.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.Repositories;
 
 
-public class CardRepository
+public class CardRepository : ICardRepository
 {
 
     private readonly AppDbContext _db;

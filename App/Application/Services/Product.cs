@@ -1,15 +1,14 @@
 using App.Application.DTOS.Auth;
 using App.Domain.Entities;
-using App.Infrastructure.Repositories;
+using App.Domain.Interfaces.Repositories;
 
 namespace App.Application.Services;
 
 public class ProductService
 {
+    private IProductRepository _productRepo;
 
-    private ProductRepository _productRepo;
-
-    public ProductService(ProductRepository productRepo)
+    public ProductService(IProductRepository productRepo)
     {
         _productRepo = productRepo;
     }

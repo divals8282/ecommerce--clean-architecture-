@@ -1,24 +1,28 @@
 using App.Domain.Entities;
-using App.Infrastructure.Repositories;
+using App.Domain.Interfaces.Repositories;
 
 namespace App.Application.Services;
 
 
 public class CheckoutService
 {
-    private IdentityRepository _identityRepo;
 
-    private CardRepository _cardRepo;
+    private readonly IProductRepository _productRepo;
 
-    private CheckoutRepository _checkoutRepo;
+    private readonly ICardRepository _cardRepo;
+
+    private IIdentityRepository _identityRepo;
+
+    private ICheckoutRepository _checkoutRepo;
     private UserService _userService;
 
-    public CheckoutService(CardRepository cardRepo, IdentityRepository identityRepo, ProductRepository productRepo, UserService userService, CheckoutRepository checkoutRepo)
+    public CheckoutService(ICardRepository cardRepo, IIdentityRepository identityRepo, IProductRepository productRepo, UserService userService, ICheckoutRepository checkoutRepo)
     {
         _cardRepo = cardRepo;
         _identityRepo = identityRepo;
         _userService = userService;
         _checkoutRepo = checkoutRepo;
+        _productRepo = productRepo;
     }
 
 

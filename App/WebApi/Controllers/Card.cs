@@ -14,7 +14,7 @@ public class CardController : ControllerBase
     {
         _cardService = cardService;
     }
-    
+
     [HttpGet("card")]
     public async Task<IResult> GetCard()
     {

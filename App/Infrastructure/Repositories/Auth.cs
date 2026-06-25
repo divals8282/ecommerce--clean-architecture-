@@ -1,10 +1,11 @@
 using App.Domain.Entities;
+using App.Domain.Interfaces.Repositories;
 using App.Infrastructure.Presistence;
 
 namespace App.Infrastructure.Repositories;
 
 
-public class AuthRepository
+public class AuthRepository : IAuthRepository
 {
 
     private readonly AppDbContext _db;
