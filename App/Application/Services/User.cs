@@ -124,12 +124,28 @@ public class UserService : IUserService
         return providedSuperSecret == _appOptions.Value.SUPER_SECRET;
     }
 
-    public async Task<UserEntity?> GetCurrentUser()
+    public async Task<GetUserResponseDTO?> GetCurrentUser()
     {
         var currentAuthUser = SerializeJWTPayloadAuthUser();
 
         var u = await _userRepo.GetByIdAsync(currentAuthUser.NameIdentifier);
 
-        return u;
+
+        if(u != null) {
+            return new GetUserResponseDTO {
+                status = true,
+                data = new GetUserResponseDTO.GetUserResponseUserDTO {
+                    LastName = u.LastName,
+                    Name = u.Name,
+                    Role = u.Role,
+                    UserName = u.UserName
+                }
+            };
+        }
+
+        return new GetUserResponseDTO {
+            status = true,
+            data = null
+        };
     }
 }

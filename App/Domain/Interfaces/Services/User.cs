@@ -14,5 +14,5 @@ public interface IUserService
 
     public bool CheckSuperSecretValidity(string superSecret);
 
-    public Task<UserEntity?> GetCurrentUser();
+    public Task<GetUserResponseDTO?> GetCurrentUser();
 }
