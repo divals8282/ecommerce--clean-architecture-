@@ -45,10 +45,6 @@ public class AuthController : ControllerBase
         return Results.Json(result, statusCode: 200);
     }
 
-
-
-
-
     [HttpPost("/auth/sign-up/content-manager/{superSecret}")]
     public async Task<IResult> SignUpContentManager([FromBody] SignUpRequestDTO request, [FromRoute] string superSecret)
     {
