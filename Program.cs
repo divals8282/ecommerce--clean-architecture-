@@ -1,7 +1,9 @@
 using System.Text;
+using App.Application.Authentication.JWT;
 using App.Application.Services;
 using App.Domain.Interfaces.Repositories;
 using App.Domains.Interfaces.Services;
+using App.Infrastructure.Authentication.JWT;
 using App.Infrastructure.Presistence;
 using App.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,6 +42,9 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 builder.Services.AddScoped<IProductService, ProductService>();

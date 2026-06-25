@@ -1,7 +1,6 @@
 using App.Application.DTOS.Auth;
 using App.Domain.Entities;
 using App.Domain.Enums;
-using App.Infrastructure.Services;
 using System.Security.Claims;
 using App.Infrastructure.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
@@ -12,12 +11,12 @@ namespace App.Application.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepo;
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IConfiguration _config;
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UserService(IUserRepository userRepo, AuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor)
+    public UserService(IUserRepository userRepo, IAuthService authService, IConfiguration config, IHttpContextAccessor httpContextAccessor)
     {
         _userRepo = userRepo;
         _authService = authService;

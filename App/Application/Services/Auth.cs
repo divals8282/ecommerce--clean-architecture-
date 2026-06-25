@@ -1,19 +1,19 @@
+using App.Application.Authentication.JWT;
 using App.Application.Enums.JWT;
 using App.Domain.Entities;
-using App.Infrastructure.Authentication.JWT;
-using App.Infrastructure.Repositories;
+using App.Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Identity;
 
-namespace App.Infrastructure.Services;
+namespace App.Application.Services;
 
-public class AuthService
+public class AuthService : IAuthService
 {
     private PasswordHasher<object> hasher = new PasswordHasher<object>();
-    private readonly AuthRepository _authRepo;
-    private readonly JwtTokenGenerator _jwt;
+    private readonly IAuthRepository _authRepo;
+    private readonly IJwtTokenGenerator _jwt;
 
 
-    public AuthService(AuthRepository authRepository, JwtTokenGenerator jwt)
+    public AuthService(IAuthRepository authRepository, IJwtTokenGenerator jwt)
     {
         _authRepo = authRepository;
         _jwt = jwt;
