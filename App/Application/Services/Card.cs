@@ -6,13 +6,11 @@ namespace App.Application.Services;
 public class CardService {
 
     private ProductRepository _productRepo;
-    private IdentityRepository _identityRepo;
     
     private CardRepository _cardRepo;
 
     public CardService(CardRepository cardRepo, IdentityRepository identityRepo, ProductRepository productRepo) {
         _cardRepo = cardRepo;
-        _identityRepo = identityRepo;
         _productRepo = productRepo;
     }
 
