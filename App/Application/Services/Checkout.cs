@@ -10,16 +10,16 @@ public class CheckoutService : ICheckoutService
 
     private readonly IProductRepository _productRepo;
 
-    private readonly ICardRepository _cardRepo;
+    private readonly ICartRepository _cartRepo;
 
     private IIdentityRepository _identityRepo;
 
     private ICheckoutRepository _checkoutRepo;
     private UserService _userService;
 
-    public CheckoutService(ICardRepository cardRepo, IIdentityRepository identityRepo, IProductRepository productRepo, UserService userService, ICheckoutRepository checkoutRepo)
+    public CheckoutService(ICartRepository cartRepo, IIdentityRepository identityRepo, IProductRepository productRepo, UserService userService, ICheckoutRepository checkoutRepo)
     {
-        _cardRepo = cardRepo;
+        _cartRepo = cartRepo;
         _identityRepo = identityRepo;
         _userService = userService;
         _checkoutRepo = checkoutRepo;
@@ -27,7 +27,7 @@ public class CheckoutService : ICheckoutService
     }
 
 
-    public async Task<bool> ArchivateCard(int identityId)
+    public async Task<bool> ArchivateCart(int identityId)
     {
         var identity = await _identityRepo.GetByIdAsync(identityId);
 
@@ -36,14 +36,14 @@ public class CheckoutService : ICheckoutService
             return false;
         }
 
-        var card = await _cardRepo.GetByIdentityId(identity.Id);
+        var cart = await _cartRepo.GetByIdentityId(identity.Id);
 
-        if (card == null)
+        if (cart == null)
         {
             return false;
         }
 
-        if (card.Products.Count() == 0)
+        if (cart.Products.Count() == 0)
         {
             return false;
         }
@@ -59,7 +59,7 @@ public class CheckoutService : ICheckoutService
         var newCheckout = new CheckoutEntity()
         {
             User = user,
-            Products = card.Products,
+            Products = cart.Products,
         };
 
         await _checkoutRepo.AddNewCheckout(newCheckout);

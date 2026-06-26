@@ -23,7 +23,7 @@ public class CheckoutControler : ControllerBase
 
         if (identityId != null)
         {
-            var status = await _checkoutService.ArchivateCard(int.Parse(identityId));
+            var status = await _checkoutService.ArchivateCart(int.Parse(identityId));
 
             return Results.Json(new { status }, statusCode: 200);
         }

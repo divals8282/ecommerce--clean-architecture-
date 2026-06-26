@@ -25,7 +25,7 @@ namespace ecommerce.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("App.Domain.Entities.CardEntity", b =>
+            modelBuilder.Entity("App.Domain.Entities.CartEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,7 +35,7 @@ namespace ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("App.Domain.Entities.CheckoutEntity", b =>

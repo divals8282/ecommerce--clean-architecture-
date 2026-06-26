@@ -4,68 +4,68 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.WebApi.Controllers;
 
 [ApiController]
-public class CardController : ControllerBase
+public class CartController : ControllerBase
 {
 
-    private ICardService _cardService;
+    private ICartService _cartService;
 
-    public CardController(ICardService cardService)
+    public CartController(ICartService cartService)
     {
-        _cardService = cardService;
+        _cartService = cartService;
     }
 
-    [HttpGet("card")]
-    public async Task<IResult> GetCard()
+    [HttpGet("cart")]
+    public async Task<IResult> GetCart()
     {
         var identityId = Request.Cookies["identity"];
 
         if (identityId != null)
         {
-            var Card = await _cardService.GetCard(int.Parse(identityId));
+            var Cart = await _cartService.GetCart(int.Parse(identityId));
 
-            return Results.Json(new { status = true, Card }, statusCode: 200);
+            return Results.Json(new { status = true, Cart }, statusCode: 200);
         }
 
         return Results.Json(new { status = false }, statusCode: 200);
     }
 
-    [HttpPut("/card/add/{productId}")]
+    [HttpPut("/cart/add/{productId}")]
     public async Task<IResult> AddProduct(int productId)
     {
         var identityId = Request.Cookies["identity"];
 
         if (identityId != null)
         {
-            var status = await _cardService.AddProduct(int.Parse(identityId), productId);
+            var status = await _cartService.AddProduct(int.Parse(identityId), productId);
             return Results.Json(new { status }, statusCode: 200);
         }
 
         return Results.Json(new { status = false }, statusCode: 200);
     }
 
-    [HttpDelete("/card/product/{productId}")]
+    [HttpDelete("/cart/product/{productId}")]
     public async Task<IResult> DeleteProduct(int productId)
     {
         var identityId = Request.Cookies["identity"];
 
         if (identityId != null)
         {
-            var status = await _cardService.DeleteProduct(int.Parse(identityId), productId);
+            var status = await _cartService.DeleteProduct(int.Parse(identityId), productId);
             return Results.Json(new { status }, statusCode: 200);
         }
 
         return Results.Json(new { status = false }, statusCode: 200);
     }
 
-    [HttpDelete("/card")]
-    public async Task<IResult> Card()
+    [HttpDelete("/cart")]
+    public async Task<IResult> Cart()
     {
         var identityId = Request.Cookies["identity"];
 
         if (identityId != null)
         {
-            var card = await _cardService.GetCard(int.Parse(identityId));
-            return Results.Json(new { status = card != null, card }, statusCode: 200);
+            var cart = await _cartService.GetCart(int.Parse(identityId));
+            return Results.Json(new { status = cart != null, cart }, statusCode: 200);
         }
 
         return Results.Json(new { status = false }, statusCode: 200);
