@@ -14,5 +14,5 @@ public class UserEntity
 
     public List<CheckoutEntity> Checkouts = null!;
 
-    required public RoleEnum Role { get; set; }
+    required public ERole Role { get; set; }
 }

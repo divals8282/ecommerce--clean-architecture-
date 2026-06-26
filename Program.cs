@@ -1,8 +1,8 @@
 using System.Text;
-using App.Application.Authentication.JWT;
 using App.Application.Services;
+using App.Domain.Interfaces.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
-using App.Domains.Interfaces.Services;
+using App.Domain.Interfaces.Services;
 using App.Infrastructure.Authentication.JWT;
 using App.Infrastructure.Presistence;
 using App.Infrastructure.Repositories;

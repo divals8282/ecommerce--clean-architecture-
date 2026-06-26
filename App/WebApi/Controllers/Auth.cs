@@ -1,9 +1,9 @@
 using App.Application.DTOS.Auth;
-using App.Application.Services;
 using App.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using App.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
+using App.Domain.Interfaces.Services;
+using App.Domain.Enums;
 
 namespace App.WebApi.Controllers;
 
@@ -27,7 +27,7 @@ public class AuthController : ControllerBase
             LastName = request.LastName,
             Name = request.Name,
             Password = request.Password,
-            Role = RoleEnum.CLIENT,
+            Role = ERole.CLIENT,
             Checkouts = new List<CheckoutEntity>(),
             RefreshToken = ""
         };
@@ -41,8 +41,20 @@ public class AuthController : ControllerBase
     public async Task<IResult> SignIn([FromBody] SignInRequestDTO request)
     {
         var result = await _userService.Login(request);
-        
-        return Results.Json(result, statusCode: 200);
+        if (result == null)
+        {
+            return Results.Json(new { status = false, message = "Username or Password invalid" }, statusCode: 200);
+        }
+
+        return Results.Json(new SignInResponseDTO
+        {
+            status = true,
+            message = "Success",
+            data = new SignInResponseDTO.TokensDTO {
+                accessToken = result[0],
+                refreshToken = result[1]
+            }
+        }, statusCode: 200);
     }
 
     [HttpPost("/auth/sign-up/content-manager/{superSecret}")]
@@ -61,7 +73,7 @@ public class AuthController : ControllerBase
             LastName = request.LastName,
             Name = request.Name,
             Password = request.Password,
-            Role = RoleEnum.CLIENT,
+            Role = ERole.CLIENT,
             Checkouts = new List<CheckoutEntity>(),
             RefreshToken = ""
         });
@@ -74,6 +86,20 @@ public class AuthController : ControllerBase
     [HttpGet("/auth/get-user")]
     public async Task<IResult> GetUser()
     {
-        return Results.Json(await _userService.GetCurrentUser(), statusCode: 200);
+        var u = await _userService.GetCurrentUser();
+        
+        var response = new GetUserResponseDTO
+        {
+            status = u != null ? true : false,
+            data = u != null ? new GetUserResponseDTO.GetUserResponseUserDTO
+            {
+                LastName = u.LastName,
+                Name = u.Name,
+                Role = u.Role,
+                UserName = u.UserName
+            } : null    
+        };
+
+        return Results.Json(response, statusCode: 200);
     }
 }

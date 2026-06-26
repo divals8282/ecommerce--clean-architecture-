@@ -1,7 +1,7 @@
-using App.Application.DTOS.Auth;
+using App.Application.DTOS.Product;
 using App.Domain.Entities;
 using App.Domain.Interfaces.Repositories;
-using App.Domains.Interfaces.Services;
+using App.Domain.Interfaces.Services;
 
 namespace App.Application.Services;
 

@@ -1,5 +1,5 @@
 using App.Domain.Enums;
-using App.Domains.Interfaces.Services;
+using App.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@ public class CheckoutControler : ControllerBase
     }
 
     [HttpPut("/checkout")]
-    [Authorize(Roles = nameof(RoleEnum.CLIENT))]
+    [Authorize(Roles = nameof(ERole.CLIENT))]
     public async Task<IResult> Checkout()
     {
         var identityId = Request.Cookies["identity"];

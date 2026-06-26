@@ -1,7 +1,8 @@
-using App.Application.Authentication.JWT;
 using App.Application.Enums.JWT;
 using App.Domain.Entities;
+using App.Domain.Interfaces.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
+using App.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.Application.Services;

@@ -1,12 +1,13 @@
 using App.Application.DTOS.Auth;
 using App.Domain.Entities;
-using App.Domain.Enums;
 using System.Security.Claims;
 using App.Infrastructure.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
 using App.Application.Enums.JWT;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using App.Domain.Interfaces.Services;
+using App.Domain.Enums;
 
 namespace App.Application.Services;
 
@@ -55,7 +56,7 @@ public class UserService : IUserService
         return new RJwtPayload(NameIdentifier, Name, AuthenticationMethod, Role == "ACCESS" ? ETokenType.ACCESS : ETokenType.REFRESH);
     }
 
-    public async Task<bool> SetNewRole(UserEntity user, RoleEnum role)
+    public async Task<bool> SetNewRole(UserEntity user, ERole role)
     {
         var u = await _userRepo.GetByIdAsync(user.Id);
 
@@ -82,41 +83,25 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task<SignInResponseDTO> Login(SignInRequestDTO user)
+    public async Task<string[]?> Login(SignInRequestDTO user)
     {
         var u = await _userRepo.GetByFieldName("UserName", user.UserName);
 
         if (u == null)
         {
-            return new SignInResponseDTO()
-            {
-                status = false,
-                message = "Username or Password invalid"
-            };
+            return null;
         }
 
         var isPasswordValid = await _authService.ComparePasswordAsync(u, user.Password);
         if (!isPasswordValid)
         {
-            return new SignInResponseDTO()
-            {
-                status = false,
-                message = "Username or Password invalid"
-            };
+            return null;
         }
         
         var accessToken = await _authService.CreateTokenAsync(u, ETokenType.ACCESS);
         var refreshToken = await _authService.CreateTokenAsync(u, ETokenType.REFRESH);
        
-        return new SignInResponseDTO
-        {
-            status = true,
-            message = "Success",
-            data = new SignInResponseDTO.TokensDTO {
-                accessToken = accessToken,
-                refreshToken = refreshToken
-            }
-        };
+        return [accessToken, refreshToken];
     }
 
     public bool CheckSuperSecretValidity(string providedSuperSecret)
@@ -124,28 +109,13 @@ public class UserService : IUserService
         return providedSuperSecret == _appOptions.Value.SUPER_SECRET;
     }
 
-    public async Task<GetUserResponseDTO?> GetCurrentUser()
+    public async Task<UserEntity?> GetCurrentUser()
     {
         var currentAuthUser = SerializeJWTPayloadAuthUser();
 
         var u = await _userRepo.GetByIdAsync(currentAuthUser.NameIdentifier);
 
 
-        if(u != null) {
-            return new GetUserResponseDTO {
-                status = true,
-                data = new GetUserResponseDTO.GetUserResponseUserDTO {
-                    LastName = u.LastName,
-                    Name = u.Name,
-                    Role = u.Role,
-                    UserName = u.UserName
-                }
-            };
-        }
-
-        return new GetUserResponseDTO {
-            status = true,
-            data = null
-        };
+        return u;
     }
 }

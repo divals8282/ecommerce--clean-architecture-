@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using App.Domain.Enums;
 
 namespace App.Application.DTOS.Auth;
 

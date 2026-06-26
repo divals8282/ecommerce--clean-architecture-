@@ -1,7 +1,7 @@
 using App.Application.Enums.JWT;
 using App.Domain.Entities;
 
-namespace App.Application.Authentication.JWT;
+namespace App.Domain.Interfaces.Authentication.JWT;
 
 public interface IJwtTokenGenerator
 {

@@ -1,4 +1,4 @@
-namespace App.Domains.Interfaces.Services;
+namespace App.Domain.Interfaces.Services;
 
 public interface ICheckoutService
 {

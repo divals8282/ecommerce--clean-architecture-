@@ -1,6 +1,6 @@
-using App.Application.DTOS.Auth;
+using App.Application.DTOS.Product;
 using App.Domain.Enums;
-using App.Domains.Interfaces.Services;
+using App.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +25,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("/product/{productId}")]
-    [Authorize(Roles = nameof(RoleEnum.CONTENT_MANAGER))]
+    [Authorize(Roles = nameof(ERole.CONTENT_MANAGER))]
     public async Task<IResult> Product(int productId)
     {
         var product = await _productService.GetProductById(productId);
@@ -34,7 +34,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost("/product/edit/{productId}")]
-    [Authorize(Roles = nameof(RoleEnum.CONTENT_MANAGER))]
+    [Authorize(Roles = nameof(ERole.CONTENT_MANAGER))]
     public async Task<IResult> Edit([FromBody] ProductRequestDTO productDTO, int productId)
     {
         var status = await _productService.Edit(productId, productDTO);
@@ -44,7 +44,7 @@ public class ProductController : ControllerBase
 
 
     [HttpDelete("/product/{productId}")]
-    [Authorize(Roles = nameof(RoleEnum.CONTENT_MANAGER))]
+    [Authorize(Roles = nameof(ERole.CONTENT_MANAGER))]
     public async Task<IResult> Delete(int productId)
     {
         var status = await _productService.Delete(productId);

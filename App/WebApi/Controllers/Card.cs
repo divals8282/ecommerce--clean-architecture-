@@ -1,6 +1,4 @@
-using App.Application.Services;
-using App.Domain.Entities;
-using App.Domains.Interfaces.Services;
+using App.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.WebApi.Controllers;

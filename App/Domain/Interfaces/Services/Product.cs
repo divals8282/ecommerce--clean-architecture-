@@ -1,7 +1,7 @@
-using App.Application.DTOS.Auth;
+using App.Application.DTOS.Product;
 using App.Domain.Entities;
 
-namespace App.Domains.Interfaces.Services;
+namespace App.Domain.Interfaces.Services;
 
 public interface IProductService
 {

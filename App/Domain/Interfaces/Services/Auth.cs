@@ -1,7 +1,7 @@
 using App.Application.Enums.JWT;
 using App.Domain.Entities;
 
-namespace App.Application.Services;
+namespace App.Domain.Interfaces.Services;
 
 public interface IAuthService
 {

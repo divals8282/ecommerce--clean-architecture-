@@ -10,7 +10,7 @@ public class GetUserResponseDTO
         public required string Name { get; set; } = null!;
         public required string LastName { get; set; } = null!;
 
-        public required RoleEnum Role { get; set; } = RoleEnum.CLIENT;
+        public required ERole Role { get; set; } = ERole.CLIENT;
     }
     public GetUserResponseUserDTO? data;
 }

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace App.Application.DTOS.Auth;
+namespace App.Application.DTOS.Product;
 
 public class ProductRequestDTO
 {
