@@ -2,12 +2,12 @@ namespace App.Application.DTOS.Auth;
 
 public class SignInResponseDTO
 {
-    public bool status {get; set;}
-    public string message {get; set;} = null!;
+    public bool Status {get; set;}
+    public string Message {get; set;} = null!;
 
     public class TokensDTO {
-        public string accessToken {get; set;} = null!;
-        public string refreshToken {get; set;} = null!;
+        public string AccessToken {get; set;} = null!;
+        public string RefreshToken {get; set;} = null!;
     }
-    public TokensDTO data {get; set;} = null!;
+    public TokensDTO Data {get; set;} = null!;
 }

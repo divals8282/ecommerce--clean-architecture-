@@ -48,11 +48,11 @@ public class AuthController : ControllerBase
 
         return Results.Json(new SignInResponseDTO
         {
-            status = true,
-            message = "Success",
-            data = new SignInResponseDTO.TokensDTO {
-                accessToken = result[0],
-                refreshToken = result[1]
+            Status = true,
+            Message = "Success",
+            Data = new SignInResponseDTO.TokensDTO {
+                AccessToken = result[0],
+                RefreshToken = result[1]
             }
         }, statusCode: 200);
     }
@@ -90,8 +90,8 @@ public class AuthController : ControllerBase
         
         var response = new GetUserResponseDTO
         {
-            status = u != null ? true : false,
-            data = u != null ? new GetUserResponseDTO.GetUserResponseUserDTO
+            Status = u != null ? true : false,
+            Data = u != null ? new GetUserResponseDTO.GetUserResponseUserDTO
             {
                 LastName = u.LastName,
                 Name = u.Name,

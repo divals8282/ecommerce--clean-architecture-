@@ -31,7 +31,7 @@ public class ProductService : IProductService
         var newProduct = new ProductEntity()
         {
             Name = product.Name,
-            price = product.price
+            Price = product.Price
         };
 
         await _productRepo.Add(newProduct);
@@ -63,7 +63,7 @@ public class ProductService : IProductService
         }
 
         product.Name = productDTO.Name;
-        product.price = productDTO.price;
+        product.Price = productDTO.Price;
 
         await _productRepo.SaveChangesAsync();
 

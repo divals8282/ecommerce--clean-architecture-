@@ -2,11 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace App.Application.DTOS.Product;
 
-public class ProductRequestDTO
+public class ProductResponseDTO
 {
-    [Required]
-    [MinLength(3)]
-    [MaxLength(24)]
+    public required int Id { get; set; }
+
     public required string Name { get; set; }
 
     [Required]

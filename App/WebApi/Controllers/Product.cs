@@ -24,13 +24,18 @@ public class ProductController : ControllerBase
         return Results.Json(new { status = true, products }, statusCode: 200);
     }
 
-    [HttpGet("/product/{productId}")]
+    [HttpPut("/product/{productId}")]
     [Authorize(Roles = nameof(ERole.CONTENT_MANAGER))]
-    public async Task<IResult> Product(int productId)
+    public async Task<IResult> Product([FromBody] ProductRequestDTO productDTO)
     {
-        var product = await _productService.GetProductById(productId);
+        var productEntity = await _productService.Add(productDTO);
 
-        return Results.Json(new { status = product != null, product }, statusCode: 200);
+        return Results.Json(new { status = productEntity != null, product = new ProductResponseDTO
+        {
+            Id = productEntity != null ? productEntity.Id : 0,
+            Name = productEntity != null ? productEntity.Name : string.Empty,
+            Price = productEntity != null ? productEntity.Price : 0
+        } }, statusCode: 200);
     }
 
     [HttpPost("/product/edit/{productId}")]
