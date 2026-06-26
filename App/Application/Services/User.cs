@@ -76,11 +76,16 @@ public class UserService : IUserService
         var hashedPassword = hasher.HashPassword(user, user.Password);
 
         user.Password = hashedPassword;
+        
+        try
+        {
+            await _userRepo.AddAsync(user);
+            return true;
+        } catch
+        {
+            return false;
+        }
 
-        await _userRepo.AddAsync(user);
-        await _userRepo.SaveChangesAsync();
-
-        return true;
     }
 
     public async Task<string[]?> Login(SignInRequestDTO user)
