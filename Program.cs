@@ -22,6 +22,9 @@ builder.Services.AddDbContext<AppDbContext>((options) =>
     );
 });
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.Configure<AppOptions>(builder.Configuration.GetSection("APP"));
 
@@ -50,6 +53,7 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();

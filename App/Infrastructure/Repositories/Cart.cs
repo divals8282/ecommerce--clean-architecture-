@@ -21,6 +21,33 @@ public class CartRepository : ICartRepository
         return await _db.Carts.FindAsync(id);
     }
 
+    public async Task<bool> AddProduct(int cartId, ProductEntity product)
+    {
+        var cart = await _db.Carts.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == cartId);
+
+        if (cart == null)
+        {
+            return false;
+        }
+
+        cart.Products.Add(product);
+
+        return true;
+    }
+    public async Task<bool> DeleteProduct(int cartId, ProductEntity product)
+    {
+        var cart = await _db.Carts.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == cartId);
+
+        if (cart == null)
+        {
+            return false;
+        }
+
+        cart.Products.Remove(product);
+
+        return true;
+    }
+
     public async Task<CartEntity?> GetByIdentityId(int identityId)
     {
 

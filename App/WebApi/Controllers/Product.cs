@@ -52,7 +52,6 @@ public class ProductController : ControllerBase
         return Results.Json(new { status }, statusCode: 200);
     }
 
-
     [HttpDelete("/product/{productId}")]
     [Authorize(Roles = nameof(ERole.CONTENT_MANAGER))]
     public async Task<IResult> Delete(int productId)

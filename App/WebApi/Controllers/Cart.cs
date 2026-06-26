@@ -7,11 +7,13 @@ namespace App.WebApi.Controllers;
 public class CartController : ControllerBase
 {
 
-    private ICartService _cartService;
+    private readonly ICartService _cartService;
+    private readonly IIdentityService _identityService;
 
-    public CartController(ICartService cartService)
+    public CartController(ICartService cartService, IIdentityService identityService)
     {
         _cartService = cartService;
+        _identityService = identityService;
     }
 
     [HttpGet("cart")]
@@ -19,14 +21,9 @@ public class CartController : ControllerBase
     {
         var identityId = Request.Cookies["identity"];
 
-        if (identityId != null)
-        {
-            var Cart = await _cartService.GetCart(int.Parse(identityId));
+        var cart = await _cartService.GetCart(identityId);
 
-            return Results.Json(new { status = true, Cart }, statusCode: 200);
-        }
-
-        return Results.Json(new { status = false }, statusCode: 200);
+        return Results.Json(new { status = cart != null, cart }, statusCode: 200);
     }
 
     [HttpPut("/cart/add/{productId}")]
@@ -34,13 +31,9 @@ public class CartController : ControllerBase
     {
         var identityId = Request.Cookies["identity"];
 
-        if (identityId != null)
-        {
-            var status = await _cartService.AddProduct(int.Parse(identityId), productId);
-            return Results.Json(new { status }, statusCode: 200);
-        }
+        var status = await _cartService.AddProduct(identityId, productId);
 
-        return Results.Json(new { status = false }, statusCode: 200);
+        return Results.Json(new { status }, statusCode: 200);
     }
 
     [HttpDelete("/cart/product/{productId}")]
@@ -48,13 +41,9 @@ public class CartController : ControllerBase
     {
         var identityId = Request.Cookies["identity"];
 
-        if (identityId != null)
-        {
-            var status = await _cartService.DeleteProduct(int.Parse(identityId), productId);
-            return Results.Json(new { status }, statusCode: 200);
-        }
+        var status = await _cartService.DeleteProduct(identityId, productId);
 
-        return Results.Json(new { status = false }, statusCode: 200);
+        return Results.Json(new { status }, statusCode: 200);
     }
 
     [HttpDelete("/cart")]
@@ -62,12 +51,11 @@ public class CartController : ControllerBase
     {
         var identityId = Request.Cookies["identity"];
 
-        if (identityId != null)
-        {
-            var cart = await _cartService.GetCart(int.Parse(identityId));
-            return Results.Json(new { status = cart != null, cart }, statusCode: 200);
-        }
+        await _cartService.GetCart(identityId);
+        await _identityService.DeleteIdentity(identityId);
 
-        return Results.Json(new { status = false }, statusCode: 200);
+        Response.Cookies.Delete("identity");
+
+        return Results.Json(new { status = true }, statusCode: 200);
     }
 }

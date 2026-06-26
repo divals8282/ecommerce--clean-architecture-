@@ -5,9 +5,9 @@ public class CheckoutEntity
 {
     public int Id { get; set; }
 
-    public UserEntity User = null!;
+    public UserEntity User { get; set; } = null!;
 
-    public List<ProductEntity> Products = null!;
+    public List<ProductEntity> Products { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
 }

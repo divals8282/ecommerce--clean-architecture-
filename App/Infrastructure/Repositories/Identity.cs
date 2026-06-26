@@ -20,6 +20,20 @@ public class IdentityRepository : IIdentityRepository
         return await _db.Identites.FindAsync(id);
     }
 
+    public async Task<IdentityEntity> Add(IdentityEntity identity)
+    {
+        await _db.Identites.AddAsync(identity);
+        
+        return identity;
+    }
+
+    public async Task<bool> Remove(IdentityEntity identity)
+    {
+        _db.Identites.Remove(identity);
+        
+        return true;
+    }
+
     public async Task SaveChangesAsync()
     {
         await _db.SaveChangesAsync();

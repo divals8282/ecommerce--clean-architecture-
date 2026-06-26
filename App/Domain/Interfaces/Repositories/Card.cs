@@ -8,6 +8,9 @@ public interface ICartRepository
 
     public Task<CartEntity?> GetByIdentityId(int identityId);
 
+    public Task<bool> AddProduct(int cartId, ProductEntity product);
+    public Task<bool> DeleteProduct(int cartId, ProductEntity product);
+
     public Task<bool> RemoveCart(CartEntity cart);
 
     public Task SaveChangesAsync();

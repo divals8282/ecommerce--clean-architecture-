@@ -16,7 +16,7 @@ public class UserEntity
 
     required public string Password { get; set; }
 
-    public List<CheckoutEntity> Checkouts = null!;
+    public List<CheckoutEntity> Checkouts { get; set; } = null!;
 
     required public ERole Role { get; set; }
 }
