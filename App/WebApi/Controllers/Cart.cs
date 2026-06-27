@@ -24,6 +24,11 @@ public class CartController : ControllerBase
 
         var cart = await _cartService.GetCart(identityId);
 
+        if(cart == null)
+        {
+            Response.Cookies.Delete("identity");
+        }
+
         return Results.Json(new GetCartResponseDTO
         {
             Status = cart != null,

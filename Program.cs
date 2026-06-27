@@ -1,4 +1,5 @@
 using System.Text;
+using App.Application.BackgroundServices;
 using App.Application.Services;
 using App.Domain.Interfaces.Authentication.JWT;
 using App.Domain.Interfaces.Repositories;
@@ -28,7 +29,6 @@ builder.Services.AddDbContext<AppDbContext>((options) =>
     [/ENABLE WHEN NEED DETAILED LOGS]
 */
 
-
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.Configure<AppOptions>(builder.Configuration.GetSection("APP"));
 
@@ -48,6 +48,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
             ClockSkew = TimeSpan.Zero
         };
 });
+
+builder.Services.AddHostedService<OldCartCollectorBackgroundService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();

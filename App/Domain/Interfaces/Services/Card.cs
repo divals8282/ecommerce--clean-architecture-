@@ -8,6 +8,7 @@ public interface ICartService
 
     public Task<int?> AddProduct(string? identityId, int productId);
     public Task<bool> DeleteProduct(string? identityId, int productId);
+    public Task<bool> DeleteInactiveCartsAsync();
 
     public Task<bool> DeleteCart(string? identityId);
 }

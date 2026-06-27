@@ -7,4 +7,5 @@ public class CartEntity
     public IdentityEntity Identity { get; set; } = null!;
     public List<ProductEntity> Products { get; set; } = null!;
     public DateTime CreatedAt { get; set; }
+    public DateTime LastUpdated { get; set; }
 }

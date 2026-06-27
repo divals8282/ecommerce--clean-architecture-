@@ -26,6 +26,7 @@ public class CartService : ICartService
         }
 
         var cart = await _identityService.GetCart(int.Parse(identityId));
+        
 
         return cart;
     }
@@ -100,6 +101,20 @@ public class CartService : ICartService
 
         await _cartRepo.RemoveCart(cart);
         await _cartRepo.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeleteInactiveCartsAsync()
+    {
+        var inactiveCarts = await _cartRepo.GetInactiveCartsAsync();
+
+        foreach (var cart in inactiveCarts)
+        {
+            await _cartRepo.RemoveCart(cart);
+        }
+
+        await _cartRepo.SaveChangesAsync();
+        
         return true;
     }
 }

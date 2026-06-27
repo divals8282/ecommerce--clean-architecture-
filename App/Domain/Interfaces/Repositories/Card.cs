@@ -13,6 +13,8 @@ public interface ICartRepository
 
     public Task<bool> RemoveCart(CartEntity cart);
 
+    public Task<List<CartEntity>> GetInactiveCartsAsync();
+
     public Task SaveChangesAsync();
 
 }

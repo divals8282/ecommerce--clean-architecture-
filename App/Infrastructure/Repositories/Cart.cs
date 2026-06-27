@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.Repositories;
 
-
 public class CartRepository : ICartRepository
 {
 
@@ -65,6 +64,14 @@ public class CartRepository : ICartRepository
         await _db.SaveChangesAsync();
 
         return true;
+    }
+
+    public async Task<List<CartEntity>> GetInactiveCartsAsync()
+    {
+        return await _db.Carts
+            .Include(c => c.Products)
+            .Where(c => c.LastUpdated < new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(-7))
+            .ToListAsync();
     }
 
     public async Task SaveChangesAsync()
