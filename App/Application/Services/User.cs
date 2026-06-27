@@ -76,12 +76,13 @@ public class UserService : IUserService
         var hashedPassword = hasher.HashPassword(user, user.Password);
 
         user.Password = hashedPassword;
-        
+
         try
         {
             await _userRepo.AddAsync(user);
             return true;
-        } catch
+        }
+        catch
         {
             return false;
         }
@@ -102,10 +103,10 @@ public class UserService : IUserService
         {
             return null;
         }
-        
+
         var accessToken = await _authService.CreateTokenAsync(u, ETokenType.ACCESS);
         var refreshToken = await _authService.CreateTokenAsync(u, ETokenType.REFRESH);
-       
+
         return [accessToken, refreshToken];
     }
 

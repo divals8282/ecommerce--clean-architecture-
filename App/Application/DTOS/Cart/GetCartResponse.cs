@@ -1,5 +1,6 @@
 
 namespace App.Application.DTOS.Cart;
+
 public class GetCartResponseDTO
 {
     public bool Status { get; set; }

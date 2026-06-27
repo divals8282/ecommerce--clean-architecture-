@@ -50,7 +50,8 @@ public class AuthController : ControllerBase
         {
             Status = true,
             Message = "Success",
-            Data = new SignInResponseDTO.TokensDTO {
+            Data = new SignInResponseDTO.TokensDTO
+            {
                 AccessToken = result[0],
                 RefreshToken = result[1]
             }
@@ -87,7 +88,7 @@ public class AuthController : ControllerBase
     public async Task<IResult> GetUser()
     {
         var u = await _userService.GetCurrentUser();
-        
+
         var response = new GetUserResponseDTO
         {
             Status = u != null ? true : false,
@@ -97,7 +98,7 @@ public class AuthController : ControllerBase
                 Name = u.Name,
                 Role = u.Role,
                 UserName = u.UserName
-            } : null    
+            } : null
         };
 
         return Results.Json(response, statusCode: 200);

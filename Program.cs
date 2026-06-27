@@ -41,6 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
                     Encoding.UTF8.GetBytes(
                         builder.Configuration["JWT:SECRET_KEY"]!)),
             ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
         };
 });
 

@@ -20,7 +20,7 @@ public class CartService : ICartService
 
     public async Task<CartEntity?> GetCart(string? identityId)
     {
-        if(identityId == null)
+        if (identityId == null)
         {
             return null;
         }
@@ -34,12 +34,12 @@ public class CartService : ICartService
     {
         var product = await _productRepo.GetByIdAsync(productId);
 
-        if(product == null)
+        if (product == null)
         {
             return null;
         }
 
-        if(identityId == null)
+        if (identityId == null)
         {
             var newCart = new CartEntity();
             var newIdentity = await _identityService.CreateIdentity(newCart);
@@ -52,7 +52,7 @@ public class CartService : ICartService
 
         var cart = await _cartRepo.GetByIdentityId(int.Parse(identityId));
 
-        if(cart == null)
+        if (cart == null)
         {
             return null;
         }
@@ -64,7 +64,7 @@ public class CartService : ICartService
 
     public async Task<bool> DeleteProduct(string? identityId, int productId)
     {
-        if(identityId == null)
+        if (identityId == null)
         {
             return false;
         }
@@ -80,13 +80,13 @@ public class CartService : ICartService
 
         await _cartRepo.DeleteProduct(cart.Id, product);
         await _cartRepo.SaveChangesAsync();
-        
+
         return true;
     }
 
     public async Task<bool> DeleteCart(string? identityId)
     {
-        if(identityId == null)
+        if (identityId == null)
         {
             return false;
         }

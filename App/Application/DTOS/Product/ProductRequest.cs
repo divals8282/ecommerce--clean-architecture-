@@ -10,5 +10,5 @@ public class ProductRequestDTO
     public required string Name { get; set; }
 
     [Required]
-    public required decimal Price { get; set; }
+    public required int Price { get; set; }
 }

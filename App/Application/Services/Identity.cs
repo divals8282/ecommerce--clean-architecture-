@@ -20,8 +20,8 @@ public class IdentityService : IIdentityService
     public async Task<CartEntity?> GetCart(int identityId)
     {
         var identity = await _identityRepo.GetByIdAsync(identityId);
-        
-        if(identity == null)
+
+        if (identity == null)
         {
             return null;
         }
@@ -39,7 +39,7 @@ public class IdentityService : IIdentityService
         };
 
         var identity = await _identityRepo.Add(newIdentity);
-        
+
         await _identityRepo.SaveChangesAsync();
 
         return identity;
@@ -47,10 +47,10 @@ public class IdentityService : IIdentityService
 
     public async Task<bool> DeleteIdentity(string? identityId)
     {
-        if(identityId == null)
+        if (identityId == null)
         {
             return false;
-        } 
+        }
 
         var identity = await _identityRepo.GetByIdAsync(int.Parse(identityId));
 

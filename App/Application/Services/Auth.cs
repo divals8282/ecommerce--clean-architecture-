@@ -24,7 +24,8 @@ public class AuthService : IAuthService
     {
         var user = await _authRepo.GetByIdAsync(u.Id);
 
-        if(user != null) {
+        if (user != null)
+        {
             var verificationResult = hasher.VerifyHashedPassword(
                 user,
                 user.Password,
@@ -38,7 +39,7 @@ public class AuthService : IAuthService
     }
 
     public async Task<string> CreateTokenAsync(UserEntity user, ETokenType tokenType)
-    {   
+    {
         if (tokenType == ETokenType.REFRESH)
         {
             var u = await _authRepo.GetByIdAsync(user.Id);
