@@ -11,7 +11,7 @@ public class GetCartResponseDTO
 
         public string Name { get; set; } = null!;
 
-        public decimal Price { get; set; }
+        public int Price { get; set; }
     }
     public List<Products>? Data { get; set; } = null!;
 }

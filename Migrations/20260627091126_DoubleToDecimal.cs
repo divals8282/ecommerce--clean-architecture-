@@ -10,10 +10,10 @@ namespace ecommerce.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<decimal>(
+            migrationBuilder.AlterColumn<int>(
                 name: "Price",
                 table: "Products",
-                type: "decimal(18,2)",
+                type: "int(18,2)",
                 nullable: false,
                 oldClrType: typeof(double),
                 oldType: "float");
@@ -27,8 +27,8 @@ namespace ecommerce.Migrations
                 table: "Products",
                 type: "float",
                 nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "decimal(18,2)");
+                oldClrType: typeof(int),
+                oldType: "int(18,2)");
         }
     }
 }

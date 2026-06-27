@@ -55,7 +55,7 @@ namespace ecommerce.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    price = table.Column<decimal>(type: "float", nullable: false)
+                    price = table.Column<int>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {

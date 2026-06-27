@@ -79,7 +79,7 @@ namespace ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("price")
+                    b.Property<int>("price")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
