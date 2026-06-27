@@ -30,4 +30,20 @@ public class CheckoutControler : ControllerBase
 
         return Results.Json(new { status = false }, statusCode: 200);
     }
+
+    [HttpGet("/checkout/list")]
+    [Authorize]
+    public async Task<IResult> CheckoutList()
+    {
+        var identityId = Request.Cookies["identity"];
+
+        if (identityId != null)
+        {
+            var status = await _checkoutService.List(int.Parse(identityId));
+
+            return Results.Json(new { status }, statusCode: 200);
+        }
+
+        return Results.Json(new { status = false }, statusCode: 200);
+    }
 }

@@ -1,4 +1,5 @@
 using App.Domain.Entities;
+using App.Domain.Enums;
 using App.Domain.Interfaces.Repositories;
 using App.Domain.Interfaces.Services;
 
@@ -7,7 +8,6 @@ namespace App.Application.Services;
 
 public class CheckoutService : ICheckoutService
 {
-
     private readonly IProductRepository _productRepo;
 
     private readonly ICartRepository _cartRepo;
@@ -66,5 +66,33 @@ public class CheckoutService : ICheckoutService
 
 
         return true;
+    }
+
+    public async Task<List<CheckoutEntity>?> List(int identityId)
+    {
+        var identity = await _identityRepo.GetByIdAsync(identityId);
+
+        if (identity == null)
+        {
+            return null;
+        }
+
+        var user = await _userService.GetCurrentUser();
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        if(user.Role == ERole.CONTENT_MANAGER)
+        {
+            var allCheckouts = await _checkoutRepo.All();
+
+            return allCheckouts;
+        }
+
+        var userCheckouts = await _checkoutRepo.GetByUserId(user.Id);
+
+        return userCheckouts;
     }
 }
