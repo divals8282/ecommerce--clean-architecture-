@@ -30,6 +30,8 @@ public class CartRepository : ICartRepository
         }
 
         cart.Products.Add(product);
+        cart.LastUpdated = DateTime.UtcNow;
+
         await _db.SaveChangesAsync();
 
         return true;
@@ -45,6 +47,8 @@ public class CartRepository : ICartRepository
         }
 
         cart.Products.Remove(product);
+        cart.LastUpdated = DateTime.UtcNow;
+        
         await _db.SaveChangesAsync();
         
         return true;
