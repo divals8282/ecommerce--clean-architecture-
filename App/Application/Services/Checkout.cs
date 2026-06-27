@@ -5,11 +5,8 @@ using App.Domain.Interfaces.Services;
 
 namespace App.Application.Services;
 
-
 public class CheckoutService : ICheckoutService
 {
-    private readonly IProductRepository _productRepo;
-
     private readonly ICartRepository _cartRepo;
 
     private IAnoUserRepository _anoUserRepo;
@@ -17,13 +14,12 @@ public class CheckoutService : ICheckoutService
     private ICheckoutRepository _checkoutRepo;
     private IUserService _userService;
 
-    public CheckoutService(ICartRepository cartRepo, IAnoUserRepository anoUserRepo, IProductRepository productRepo, IUserService userService, ICheckoutRepository checkoutRepo)
+    public CheckoutService(ICartRepository cartRepo, IAnoUserRepository anoUserRepo, IUserService userService, ICheckoutRepository checkoutRepo)
     {
         _cartRepo = cartRepo;
         _anoUserRepo = anoUserRepo;
         _userService = userService;
         _checkoutRepo = checkoutRepo;
-        _productRepo = productRepo;
     }
 
 
